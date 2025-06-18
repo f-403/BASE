@@ -113,12 +113,13 @@ my_bool  udf_name_init(
     //if (args->arg_count != 1 ) {
     if (0) {
         //message;设置message, meaasge[MYSQL_ERRMSG_SIZE]，有默认值512
-        const char* my_message = "THIS IS A TEST for my function:udf_name";
-        int my_message_leng = strlen(my_message);
-        memcpy(message,my_message,MYSQL_ERRMSG_SIZE);
-        //message[MYSQL_ERRMSG_SIZE - 1] = '\0';
-        message[my_message_leng] = '\0';
-        return 1;
+       const char* my_message = "THIS IS A TEST for my function:udf_name";
+		size_t msg_len = strlen(my_message);
+		size_t copy_len = msg_len < MYSQL_ERRMSG_SIZE ? msg_len : MYSQL_ERRMSG_SIZE - 1;
+
+		memcpy(message, my_message, copy_len);
+		message[copy_len] = '\0';  // 确保null终止
+		return 1;
     }
 
     
